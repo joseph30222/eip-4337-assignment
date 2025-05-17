@@ -7,84 +7,57 @@ This repository demonstrates  a basic implementation of EIP-4337 (Account Abstra
 - GitHub account
 - Node.js and npm (included in Codespace)
 - Basic understanding of Ethereum and Solidity
-- Deployment
 
+## Setup
 
+1. Clone this repository and open it in a GitHub Codespace.
+2. Install dependencies:
 
+   ```bash
+   npm install
+   ```
+3. Compile the contract:
 
+   ```bash
+   npx hardhat compile
+   ```
 
-Start the Hardhat node:
+## Deployment
 
-npx hardhat node
+1. Start a local Hardhat node:
 
+   ```bash
+   npx hardhat node
+   ```
+2. Deploy the `SimpleAccount` contract:
 
+   ```bash
+   npx hardhat run scripts/deploy.js --network localhost
+   ```
 
-Deploy the SimpleAccount contract:
+## Testing
 
-npx hardhat run scripts/deploy.js --network localhost
+1. Update `testUserOp.js` with the deployed contract address.
+2. Run the test script:
 
+   ```bash
+   npx hardhat run scripts/testUserOp.js --network localhost
+   ```
 
+## Explanation
 
-Note the deployed contract address (e.g., 0x5FbDB2315678afecb367f032d93F642f64180aa3).
+- **SimpleAccount.sol**: An EIP-4337-compliant smart contract wallet that validates and executes UserOperations.
+- **deploy.js**: Deploys the contract to the local network.
+- **testUserOp.js**: Simulates a UserOperation to transfer 0.01 ETH.
+- **EIP-4337**: Enables smart contract wallets to act like EOAs, improving user experience with features like gas sponsorship and batched transactions.
 
-Testing
+## Resources
 
+- EIP-4337 Specification
+- eth-infinitism/account-abstraction
+- Hardhat Documentation
 
+## Notes
 
-
-
-Update testUserOp.js with the deployed contract address.
-
-
-
-Run the test script:
-
-npx hardhat run scripts/testUserOp.js --network localhost
-
-Notes
-
-
-
-
-
-Uses placeholder EntryPoint address (0x000...000) for local testing.
-
-
-
-testUserOp.js bypasses validateUserOp (commented out) due to missing EntryPoint simulation; production requires a valid EntryPoint and signature.
-
-
-
-testUserOp.js uses a placeholder signature ("0x"), which may cause validateUserOp to fail if enabled.
-
-
-
-SimpleAccount.sol warnings (unused parameter, variable, mutability) are non-critical.
-
-
-
-Handles BigInt serialization with serializeBigInt for ethers.js v6.
-
-
-
-Codespace restarts reset node state; redeploy to ensure valid contract address.
-
-Troubleshooting
-
-
-
-
-
-If NotImplementedError: Method 'HardhatEthersProvider.resolveName' is not implemented, verify simpleAccountAddress in testUserOp.js is a valid Ethereum address (e.g., 0x123...), not an ENS name or malformed string (e.g., new_address0x...).
-
-
-
-If call revert exception, redeploy and update testUserOp.js address.
-
-
-
-If HH108: Cannot connect, verify node: lsof -i :8545 and curl http://127.0.0.1:8545. Restart: kill -9 <PID>; npx hardhat node.
-
-
-
-If 'Not EntryPoint' error, ensure validateUserOp is commented out in testUserOp.js.
+- This is a simplified setup for learning purposes. A full EIP-4337 implementation requires a deployed EntryPoint contract and a Bundler service.
+- For questions, refer to the QuickNode Guide.
